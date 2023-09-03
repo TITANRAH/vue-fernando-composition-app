@@ -23,8 +23,15 @@ const routerLinks: RouterLink[] = pokemonRoute.children?.map( ({name, path, prop
     :links="routerLinks"
     is-secondary
     />
-    <h4>Pokemon Layout</h4>
-    <RouterView/>
+    <!-- <h4>Pokemon Layout</h4> -->
+
+    <!-- #suspense -->
+    <!-- <Suspense>    -->
+    <RouterView />
+    <!-- <template #fallback>
+      Loading...
+    </template>
+  </Suspense> -->
   </div>
 </template>
 
