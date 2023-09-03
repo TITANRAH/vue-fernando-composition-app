@@ -5,7 +5,7 @@ import type { Pokemon, PokemonListResponse, PokemonResponse  } from "../interfac
 
 export const getPokemons = async(): Promise<Pokemon[]> => {
 
-    // await sleep(2)
+   //  await sleep(8)
     // hago la primera peticion y me trae una lista de 45 pokemones
    const {data} = await  pokemonApi.get<PokemonListResponse>('/pokemon?limit=45')
 
@@ -30,7 +30,9 @@ export const getPokemons = async(): Promise<Pokemon[]> => {
    }
 
 //    hago que se cumpla la promesa
-   const pokemons = await Promise.all(pokemonPromises)
+    
+    const pokemons = await Promise.all(pokemonPromises)
 
     return pokemons;
+
 }

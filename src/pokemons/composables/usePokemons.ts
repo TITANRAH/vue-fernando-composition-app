@@ -1,27 +1,37 @@
-import { ref, computed } from "vue"
-import { getPokemons } from "../helpers/get-pokemons"
-import type { Pokemon } from "../interfaces"
+import { computed,  } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import { getPokemons } from '../helpers/get-pokemons'
 
 
-const usePokemons = () => {
 
-    const pokemons = ref<Pokemon[]>([])
-    const isLoading = ref(true)
-
-    getPokemons().then((resp) => {
-        pokemons.value = resp;
-        isLoading.value = false;
-    }
-    );
-
-    const count = computed(() => {
-        return pokemons.value.length
-    })
+export const usePokemons = () => {
 
 
-    return {
-        pokemons,
-        isLoading,
-        count
-    }
+// Ventakas de tanstack :
+
+// todo esta en cache , 
+// todo esta revalidado, 
+// cache offline,
+// usa reconexiones 
+    
+const {isLoading, data:pokemons, isError,error  } = useQuery(
+  // etiqueta o tag para identificar el cache por si lo vuelvo a usar 
+  // sirve para matenenr en cache la data, 
+  ['pokemons'],
+  getPokemons
+)
+
+//     onMounted(async()=>{
+//         await loadPokemons();
+//     })
+
+const count = computed(()=> pokemons.value?.length ?? 0)
+
+  return {
+    pokemons,
+    isLoading,
+    count,
+    isError,
+    error
+  }
 }

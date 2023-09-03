@@ -1,30 +1,22 @@
 <script setup lang="ts">
-
-import pokemonApi from '../api/pokemonApi';
-import type {PokemonListResponse} from '../interfaces/pokemons-list.response'
-import { getPokemons } from '../helpers/get-pokemons';
-import { ref } from 'vue';
-import type { Pokemon } from '../interfaces/pokemon';
-
-// #suspense
-// const data = await getPokemons()
-// const pokemons = ref<Pokemon[]>([])
-
-// getPokemons().then((resp) => {
-//   pokemons.value = resp
-// })
-
+import PokemonCardList from '../components/PokemonCardList.vue';
+import { usePokemons } from '../composables/usePokemons'
+const { count, isLoading, pokemons, isError, error } = usePokemons()
 </script>
 <template>
-  <div>
+  <h1 v-if="isLoading">Loading...</h1>
 
-    <h1>Pokemon List</h1>
-    <ul>
-      <li v-for="pokemon in pokemons" :key="pokemon.id">
-        {{ pokemon.name }}
+  <div v-else-if="isError">
+    {{ error }}
+  </div>
+  <div v-else>
+    <h1>Pokemon List - {{ count }}</h1>
 
-      </li>
-    </ul>
+    <!-- si no pongo ?? [] dara error no deberia por que estoy previniendo con un error 
+    pero hay que oponerlo -->
+      <PokemonCardList
+        :pokemons="pokemons ?? []"
+      />
   </div>
 </template>
 <!-- 
